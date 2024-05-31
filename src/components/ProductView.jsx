@@ -24,7 +24,7 @@ const ProductView = () => {
   const [selectHeart, setSelectHeart] = useState(false);
   const [amount, setAmount] = useState(1);
   const [product, setProduct] = useState({});
-  const { user } = useSelector((state) => state.auth);
+  const { user, isUser } = useSelector((state) => state.auth);
   const location = useLocation();
   const productId = location.pathname.split("/")[2];
   const rating = useRating(5);
@@ -66,7 +66,7 @@ const ProductView = () => {
   }, [user, productId]);
 
   const updateWishlist = useCallback(async () => {
-    if (user) {
+    if (isUser) {
       if (isProductInWishlist) {
         setSelectHeart(false);
         await apiRequest.delete(`/profile/wishlist/${productId}`);
@@ -78,7 +78,7 @@ const ProductView = () => {
     } else {
       notifyError("YOU ARE NOT LOGGED IN USER");
     }
-  }, [isProductInWishlist, dispatch, productId]);
+  }, [isProductInWishlist, dispatch, productId, user]);
 
   const relatedProducts = useMemo(() => {
     if (!product.category) return [];
@@ -306,7 +306,7 @@ const ProductView = () => {
         </div>
 
         {/* Phone Additional Details */}
-        <div className="w-full px-4 md:w-[80%] bg-pink-50 items-center md:mx-auto">
+        <div className="w-full px-4 py-4 md:w-[80%] bg-pink-50 items-center md:mx-auto">
           <div className="flex md:px-4 md:py-2 md:my-0 my-2 justify-between">
             <h1 className="font-[600] text-black text-lg">Review Product</h1>
             <Link

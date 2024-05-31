@@ -6,8 +6,6 @@ import { CiHeart, CiShoppingCart } from "react-icons/ci";
 import useRating from "../hooks/useRating";
 import { apiRequest } from "../services/ApiService";
 import { fetchUser } from "../redux/slicers/auth";
-import MyToaster from "./MyToaster";
-import ProductCardSkeleton from "./ProductCardSkeleton";
 
 function ProductCard({ props }) {
   const { _id, rating, images, category, title, price, cutPrice } = props;
@@ -54,7 +52,6 @@ function ProductCard({ props }) {
       className="cursor-pointer  flex items-center justify-center"
       onClick={() => navigate(`/product/${_id}`)}
     >
-      <MyToaster />
       <div
         onMouseOver={() => setIsVisible(true)}
         onMouseOut={() => setIsVisible(false)}

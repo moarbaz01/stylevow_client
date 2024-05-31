@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import React from "react";
 import {
@@ -11,20 +12,18 @@ import {
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logoutSuccess } from "../redux/slicers/auth";
-import MyToaster from "../components/MyToaster";
 
 function Account() {
   const { isUser } = useSelector((state) => state.auth);
+  const notify = (message) => toast(message);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     dispatch(logoutSuccess());
+    notify("Logout Successfull");
   };
   return (
     <div>
-      {/* Toaster */}
-      <MyToaster />
-
       {/* Account Section */}
       <div className=" h-20 bg-white border-b-[1px]  w-full flex items-center justify-start px-4 shadow-sm">
         <h1 className=" text-xl font-[600] ">Account</h1>

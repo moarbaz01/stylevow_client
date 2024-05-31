@@ -8,7 +8,6 @@ import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { apiRequest } from "../services/ApiService";
-import MyToaster from "../components/MyToaster";
 
 function WriteReview() {
   const navigate = useNavigate();
@@ -72,7 +71,6 @@ function WriteReview() {
 
   return (
     <div>
-      <MyToaster />
       <div className=" hidden md:block">
         <Announcement />
       </div>

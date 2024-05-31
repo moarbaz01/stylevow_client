@@ -11,7 +11,6 @@ import { useDispatch } from "react-redux";
 import { loginFailure, loginSuccess } from "../redux/slicers/auth";
 import toast from "react-hot-toast";
 import { apiRequest } from "../services/ApiService";
-import MyToaster from "../components/MyToaster";
 
 function Login() {
   const dispatch = useDispatch();
@@ -76,7 +75,6 @@ function Login() {
 
   return (
     <div>
-      <MyToaster />
       <div className=" md:block hidden">
         <Announcement />
       </div>

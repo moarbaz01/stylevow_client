@@ -38,7 +38,7 @@ const routes = [
   {
     path: "/account",
     component: lazy(() => import("../pages/Account")),
-    protected: true,
+    // protected: true,
   },
   {
     path: "/cards",

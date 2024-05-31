@@ -11,7 +11,6 @@ import Footer from "../components/Footer";
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import { apiRequest } from "../services/ApiService";
-import MyToaster from "../components/MyToaster";
 
 function AddressAdd() {
   const { isUser, user } = useSelector((state) => state.auth);
@@ -39,7 +38,6 @@ function AddressAdd() {
 
   return (
     <div>
-      <MyToaster />
       <div className="md:block hidden">
       <Announcement />
       </div>

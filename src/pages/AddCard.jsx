@@ -6,7 +6,6 @@ import Footer from "../components/Footer";
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import { apiRequest } from "../services/ApiService";
-import MyToaster from "../components/MyToaster";
 
 function AddCard() {
   const location = useLocation();
@@ -71,8 +70,6 @@ function AddCard() {
           <h1 className=" text-xl font-[600] ">&lt; Add Card</h1>
         </Link>
       </div>
-
-      <MyToaster />
 
       <form
         className="flex mt-4 md:mt-4  md:w-1/3 md:mx-auto md:border-[1px] md:mb-12 md:border-gray-300 md:rounded-md md:px-4 md:py-6 flex-col"

@@ -267,18 +267,21 @@ function Navbar({ home }) {
             </ul>
           </div>
           {!home && (
-            <Link
-              to={"/feature"}
-              state={{ title: "Wishlist", data: [] }}
+            <div
+              onClick={() =>
+                navigate(isUser ? "/feature" : "/login", {
+                  state: { title: "Wishlist", data: user?.wishlist },
+                })
+              }
               className="px-2 text-2xl relative cursor-pointer"
             >
               <CiHeart />
               {user.wishlist?.length > 0 && (
-                <div className=" bg-color_dark_pink text-white rounded-full h-4 w-4 flex items-center justify-center right-1 -top-0 text-xs absolute">
+                <div className="bg-color_dark_pink text-white rounded-full h-4 w-4 flex items-center justify-center absolute right-1 -top-0 text-xs">
                   {user?.wishlist?.length}
                 </div>
               )}
-            </Link>
+            </div>
           )}
 
           {home === true && (
@@ -318,18 +321,22 @@ function Navbar({ home }) {
             <CiSearch className="" />
           </div>
 
-          <Link
-            to={"/feature"}
-            state={{ title: "Wishlist", data: user?.wishlist }}
-            className="px-2 text-3xl relative cursor-pointer"
+          <div
+            onClick={() =>
+              navigate(isUser ? "/feature" : "/login", {
+                state: { title: "Wishlist", data: user?.wishlist },
+              })
+            }
+            className="px-2 text-2xl relative cursor-pointer"
           >
             <CiHeart />
             {user.wishlist?.length > 0 && (
-              <div className=" bg-color_dark_pink text-white rounded-full h-4 w-4 flex items-center justify-center right-1 -top-0 text-xs absolute">
+              <div className="bg-color_dark_pink text-white rounded-full h-4 w-4 flex items-center justify-center absolute right-1 -top-0 text-xs">
                 {user?.wishlist?.length}
               </div>
             )}
-          </Link>
+          </div>
+
           {/* <div className="px-2 text-3xl relative cursor-pointer">
             <CiShoppingCart />
           </div> */}

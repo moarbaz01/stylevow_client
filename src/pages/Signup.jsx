@@ -11,7 +11,6 @@ import validator from "validator";
 import { Link } from "react-router-dom";
 import logo from "../png/s-high-resolution-logo-white.png";
 import toast from "react-hot-toast";
-import MyToaster from "../components/MyToaster";
 import { apiRequest } from "../services/ApiService";
 
 function Signup() {
@@ -85,7 +84,6 @@ function Signup() {
 
   return (
     <div>
-      <MyToaster />
       <div className=" md:block hidden">
         <Announcement />
       </div>

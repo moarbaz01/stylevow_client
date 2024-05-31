@@ -6,7 +6,6 @@ import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { apiRequest } from "../services/ApiService";
-import MyToaster from "../components/MyToaster";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -37,7 +36,6 @@ function ForgotPassword() {
 
   return (
     <div>
-      <MyToaster />
       <div className=" md:block hidden">
         <Announcement />
       </div>

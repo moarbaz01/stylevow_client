@@ -7,7 +7,6 @@ import Footer from "../components/Footer";
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import { apiRequest } from "../services/ApiService";
-import MyToaster from "../components/MyToaster";
 
 function Address() {
   const location = useLocation();
@@ -90,7 +89,6 @@ function Address() {
       <div className=" md:block hidden">
         <Navbar />
       </div>
-      <MyToaster />
       <div className=" h-20 md:hidden bg-white border-b-[1px] cursor-pointer md:border-none w-full md:w-1/3 md:mx-auto flex items-center justify-start  px-4 md:shadow-none shadow-sm">
         <h1 onClick={() => navigate(-1)} className=" text-xl font-[600] ">
           &lt; Add Address

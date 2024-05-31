@@ -11,7 +11,6 @@ import Product404 from "../components/Product404";
 import { fetchUser } from "../redux/slicers/auth";
 import toast from "react-hot-toast";
 import { apiRequest } from "../services/ApiService";
-import MyToaster from "../components/MyToaster";
 
 function Cart() {
   const { items, totalPrice } = useSelector((state) => state.cart);
@@ -103,7 +102,6 @@ function Cart() {
   return (
     <div>
       <div ref={topRef}></div>
-      <MyToaster />
       <div className=" hidden md:block">
         <Announcement />
       </div>

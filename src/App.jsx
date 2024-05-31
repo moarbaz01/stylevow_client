@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { fetchUser, logoutSuccess } from "./redux/slicers/auth";
 import { getUserCart } from "./redux/slicers/cart";
 import Router from "./routes/Router";
+import MyToaster from "./components/MyToaster";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function App() {
 
   return (
     <div>
+      <MyToaster/>
       {![
         "/gender",
         "/profile",

@@ -16,7 +16,7 @@ function Success() {
   }, []);
 
   return (
-    <div className="h-screen items-center justify-center flex">
+    <div className="h-screen overflow-hidden items-center justify-center flex">
       <Product404
         props={{
           symbol: "✔",

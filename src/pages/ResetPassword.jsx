@@ -6,7 +6,6 @@ import {  MdPassword } from "react-icons/md";
 import { Link, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { apiRequest } from "../services/ApiService";
-import MyToaster from "../components/MyToaster";
 
 function ResetPassword() {
   const [newPassword, setNewPassword] = useState("");
@@ -36,7 +35,6 @@ function ResetPassword() {
 
   return (
     <div>
-      <MyToaster/>
       <div className=" md:block hidden">
         <Announcement />
       </div>
