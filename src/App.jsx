@@ -42,7 +42,7 @@ function App() {
         "/signup",
         "/reviews",
         "/review",
-        "/forgotPassword",
+        "/forgotpassword",
         "/resetPassword",
       ].some((path) => location.pathname.includes(path)) && <BottomNavbar />}
 

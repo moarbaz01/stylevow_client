@@ -81,11 +81,11 @@ function ForgotPassword() {
           </form>
 
           <div className="flex items-center md:flex-col mt-4 flex-col-reverse justify-between w-full md:w-[80%]">
-            <Link to={"/"}>Go to Home</Link>
             <Link to={"/signup"} className="text-sm">
               Create an new account?{" "}
               <span className=" text-color_dark_pink font-bold">sign up</span>
             </Link>
+            <Link to={"/"}>Go to Home</Link>
           </div>
         </div>
       </div>
