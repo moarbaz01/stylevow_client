@@ -8,7 +8,13 @@ import SkeletonFallback from "../components/SkeletonFallback";
 
 const Router = () => {
   return (
-    <Suspense >
+    <Suspense
+      fallback={
+        <div className=" flex items-center justify-center mt-[50%]">
+          <span className="loader"></span>
+        </div>
+      }
+    >
       <Routes>
         {routes.map((route, index) => (
           <Route
