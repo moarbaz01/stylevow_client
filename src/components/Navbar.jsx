@@ -172,7 +172,7 @@ function Navbar({ home }) {
             <ul
               className={`${
                 showProfile ? "flex" : "hidden"
-              } flex-col items-start transition-opacity absolute py-6 px-4 pr-10 gap-2 before:h-1 before:w-8 before:bg-color_dark_pink before:-top-1 rounded-tl-none before:left-0 before:absolute bg-white border-[1px] rounded-sm top-12`}
+              } flex-col items-start transition-opacity absolute py-6 px-4 pr-10 gap-2 before:h-1 before:w-8 before:bg-color_dark_pink before:-top-1 rounded-tl-none before:left-0 before:absolute bg-white border-[1px] z-[50] rounded-sm top-12`}
             >
               {isUser && (
                 <li className=" hover:text-color_dark_pink transition">

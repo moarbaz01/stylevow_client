@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -21,6 +21,7 @@ function Login() {
   const errNotify = (message) => toast(message);
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const loadingToastRef = useRef(null);
 
   // Change Handler
   function changeHandler(e) {
@@ -34,6 +35,8 @@ function Login() {
   const saveData = (e) => {
     e.preventDefault();
     setLoading(true);
+    loadingToastRef.current = toast.loading("Processing");
+
     // Post data
     const payload = {
       email,
@@ -64,6 +67,9 @@ function Login() {
           errNotify("An unexpected error occurred.");
           dispatch(loginFailure("An unexpected error occurred."));
         }
+      })
+      .finally(() => {
+        toast.dismiss(loadingToastRef.current);
       });
   };
 
@@ -71,7 +77,7 @@ function Login() {
     if (isUser) {
       navigate("/");
     }
-  });
+  }, [isUser]);
 
   return (
     <div>
@@ -157,7 +163,9 @@ function Login() {
             >
               Forgot Password?
             </Link>
-            <Link className="md:hidden" to={"/"}>Go to Home</Link>
+            <Link className="md:hidden" to={"/"}>
+              Go to Home
+            </Link>
           </div>
         </div>
       </div>

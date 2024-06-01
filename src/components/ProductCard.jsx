@@ -112,7 +112,7 @@ function ProductCard({ props }) {
             ))}
           </div>
           <div className="flex items-center mt-1 justify-between">
-            <span className="font-bold text-xl">₹{price}</span>
+            <span className="font-bold mr-1 text-xl">₹{price}</span>
             <span className="line-through font-bold text-color_dark_pink text-md">
               ₹{cutPrice}
             </span>

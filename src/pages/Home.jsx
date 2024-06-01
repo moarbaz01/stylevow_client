@@ -48,7 +48,7 @@ function Home() {
       <Instructions />
 
       {/* Categories */}
-      <div className="max-w-[1080px] mx-auto mb-12">
+      <div className="max-w-[1080px] mx-auto mb-6 md:mb-12 md:mt-12 mt-0">
         <div className="flex md:block items-center mx-2 justify-between ">
           <h1 className="text-center hidden md:block text-black text-2xl font-[500]  ">
             Shop By Category

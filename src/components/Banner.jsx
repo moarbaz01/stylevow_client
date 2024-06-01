@@ -39,18 +39,18 @@ const Banner = ({ title, productData }) => {
     autoplaySpeed: 2000, // 2 seconds delay
     appendDots: (dots) => (
       <div>
-        <ul className="slick-dots bottom-10 md:bottom-0">{dots}</ul>
+        <ul className="slick-dots bottom-10 ">{dots}</ul>
       </div>
     ),
   };
 
   return (
-    <div className="max-w-[1080px] px-1 md:mx-auto my-4">
-      <Slider {...settings} className=" overflow-hidden gap-2 md:overflow-auto">
+    <div className="max-w-[1080px] px-1 relative z-10 md:mx-auto my-4">
+      <Slider {...settings} className=" overflow-hidden gap-2">
         {bannerData.map((item, index) => (
           <div
             key={index}
-            className="relative shadow-color_pink h-[40vh] md:h-[80vh] flex justify-center items-center rounded-md"
+            className="relative shadow-color_pink w-full h-[40vh] md:h-[70vh] flex justify-center items-center rounded-md"
           >
             <img
               src={item.image}
@@ -70,7 +70,7 @@ const Banner = ({ title, productData }) => {
                   ₹ {item.price}
                 </span>
               </p>
-              <Link to={"/feature"} state={{ title }}>
+              <Link to={"/feature"} state={{ title: item.title }}>
                 <button className="bg-color_dark_pink text-white py-2 px-6 rounded-md">
                   Shop Now
                 </button>
