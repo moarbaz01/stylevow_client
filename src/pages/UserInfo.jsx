@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { CiCircleInfo, CiMail } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { apiRequest } from "../services/ApiService";
+import toast from "react-hot-toast";
 
 function UserInfo() {
   const { user } = useSelector((state) => state.auth);
@@ -18,6 +19,7 @@ function UserInfo() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const loadingToastRef = useRef(null);
 
   function uploadImageHandler(e) {
     setFile(e.target.files[0]);
@@ -27,6 +29,7 @@ function UserInfo() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    loadingToastRef.current = toast.loading("Updating Information");
     const formData = new FormData();
     formData.append("fname", fname);
     formData.append("lname", lname);
@@ -42,7 +45,10 @@ function UserInfo() {
         setSuccess("");
         setError(err.response.data.message);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        toast.dismiss(loadingToastRef.current);
+      });
   };
   return (
     <div>

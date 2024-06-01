@@ -9,6 +9,7 @@ import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import { month } from "../data";
 import { apiRequest } from "../services/ApiService";
+import toast from "react-hot-toast";
 
 function OrderConfirm() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function OrderConfirm() {
   const [orderState] = useState(location?.state);
   const dispatch = useDispatch();
   const date = new Date();
+  const loadingToastRef = useRef(null);
 
   function getShippingDate() {
     const shippingDate = new Date(date.getTime() + 3 * 24 * 60 * 60 * 1000);
@@ -25,6 +27,7 @@ function OrderConfirm() {
 
   function handleOrder() {
     setLoading(true);
+    loadingToastRef.current = toast.loading("Loading...");
     const shippingDate = getShippingDate();
     const order = {
       products: orderState.items,
@@ -37,13 +40,16 @@ function OrderConfirm() {
       .post("/order/create", order)
       .then(() => {
         setLoading(false);
+        navigate("/success");
         dispatch(fetchUser());
         dispatch(getUserCart());
-        navigate("/success");
       })
       .catch((err) => {
         setLoading(false);
         console.log(err);
+      })
+      .finally(() => {
+        toast.dismiss(loadingToastRef.current);
       });
   }
 
@@ -204,7 +210,10 @@ function OrderConfirm() {
             </button>
           </div>
           <div className="mx-4 mt-4 mb-4">
-            <button className=" bg-black text-white rounded-sm text-xl font-bold h-16  w-full">
+            <button
+              onClick={() => navigate("/cart")}
+              className=" bg-black text-white rounded-sm text-xl font-bold h-16  w-full"
+            >
               Cancel Order
             </button>
           </div>

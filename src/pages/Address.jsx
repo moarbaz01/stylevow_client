@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import {  useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { fetchUser } from "../redux/slicers/auth";
 import Footer from "../components/Footer";
 import Announcement from "../components/Announcement";
@@ -26,6 +26,7 @@ function Address() {
     zip: "",
     phone: "",
   });
+  const loadingToastRef = useRef(null);
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -69,6 +70,7 @@ function Address() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    loadingToastRef.current = toast.loading("Proccessing");
     apiRequest({
       method: id !== null ? "PUT" : "POST",
       url: "/profile/address",
@@ -79,7 +81,10 @@ function Address() {
         navigate(-1);
       })
       .catch((err) => notifyError(err.response.data.message))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        toast.dismiss(loadingToastRef.current);
+      });
   };
   return (
     <div>
