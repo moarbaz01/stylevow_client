@@ -58,10 +58,12 @@ function FeatureProduct() {
           &lt; {title}
         </h1>
       </div>
-      <div className="mt-4 max-w-[1080px] mx-auto">
-        {query && query.length !== 0 ? (
+      {query && query.length !== 0 ? (
+        <div className="mt-4 max-w-[1080px] mx-auto">
           <Products data={currentData()} />
-        ) : (
+        </div>
+      ) : (
+        <div className="justify-center mt-8 w-full px-2 flex-col flex">
           <Product404
             props={{
               symbol: "!",
@@ -71,8 +73,8 @@ function FeatureProduct() {
               redirect: "/",
             }}
           />
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Pagination */}
       {maxPages > 0 && (

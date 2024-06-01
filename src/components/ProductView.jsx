@@ -68,10 +68,12 @@ const ProductView = () => {
   const updateWishlist = useCallback(async () => {
     if (isUser) {
       if (isProductInWishlist) {
+        notifyError("Removed")
         setSelectHeart(false);
         await apiRequest.delete(`/profile/wishlist/${productId}`);
       } else {
         setSelectHeart(true);
+        notify("Added")
         await apiRequest.post("/profile/wishlist", { productId: productId });
       }
       dispatch(fetchUser());
@@ -95,7 +97,7 @@ const ProductView = () => {
 
   const handleAddToCart = async () => {
     setLoading(true);
-    if (user) {
+    if (isUser) {
       if (!size || !color) {
         setLoading(false);
         notifyError("Please select color and size");
@@ -130,6 +132,7 @@ const ProductView = () => {
       }
     } else {
       notifyError("Please login to add to cart");
+      setLoading(false);
     }
   };
 

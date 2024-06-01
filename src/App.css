@@ -1,4 +1,7 @@
 /* write your css here */
+/* In your main CSS file (e.g., index.css or App.css) */
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
 
 ::-webkit-scrollbar {display:none;}
 

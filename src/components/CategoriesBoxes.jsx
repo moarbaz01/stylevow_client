@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import axios from "axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { apiRequest } from "../services/ApiService";
@@ -37,7 +36,7 @@ function CategoriesBoxes() {
             .fill()
             .map((_, index) => (
               <div key={index} className="flex flex-col items-center">
-                <Skeleton height={100} width={100} />
+                <Skeleton borderRadius={50} height={100} width={100} />
                 <Skeleton width={80} />
               </div>
             ))

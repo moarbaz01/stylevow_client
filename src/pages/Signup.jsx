@@ -8,10 +8,12 @@ import Footer from "../components/Footer";
 import validator from "validator";
 // import google from "../assets/images/logo/google.png";
 // import facebook from "../assets/images/logo/facebook.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../png/s-high-resolution-logo-white.png";
 import toast from "react-hot-toast";
 import { apiRequest } from "../services/ApiService";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/slicers/auth";
 
 function Signup() {
   const [signupData, setSignupData] = useState({
@@ -23,6 +25,8 @@ function Signup() {
     phone: "",
     otp: "",
   });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [otpSend, setOtpSend] = useState(false);
   const [submitSend, setSubmitSend] = useState(false);
   const notify = (message) => toast.success(message);
@@ -36,6 +40,20 @@ function Signup() {
         [name]: value,
       };
     });
+  }
+
+  function userLogin() {
+    apiRequest("post", "/login", { email: signupData.email, password: signupData.password })
+      .then((res) => {
+        dispatch(
+          loginSuccess({ user: res.data.user, token: res.data.user.token })
+        );
+        navigate("/");
+        notify("Login Successful");
+      })
+      .catch((err) => {
+        notifyError(err.response.data.message);
+      });
   }
 
   const termsRef = useRef();
@@ -53,6 +71,9 @@ function Signup() {
         .then((res) => {
           setSubmitSend(false);
           notify(res.data.message.toUpperCase());
+          if (res.data) {
+            userLogin();
+          }
         })
         .catch((err) => {
           setSubmitSend(false);
@@ -154,7 +175,7 @@ function Signup() {
             {/*  */}
             <div className="flex items-center md:pl-2 pt-2 md:py-4 w-full">
               <input
-              id="otpInput"
+                id="otpInput"
                 className="bg-transparent h-[48px] pl-2 border-gray-200 w-[50%] border-[1px] outline-none "
                 type="number"
                 name="otp"

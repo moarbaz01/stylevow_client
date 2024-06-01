@@ -44,11 +44,11 @@ function Home() {
     <div className="">
       <Announcement />
       <Navbar />
-      <Banner title={"New Arrivals"} data={newArrivalsProducts} />
+      <Banner title={"New Arrivals"} data={[newArrivalsProducts]} />
       <Instructions />
 
       {/* Categories */}
-      <div className="max-w-[1080px] mx-auto my-12">
+      <div className="max-w-[1080px] mx-auto mb-12">
         <div className="flex md:block items-center mx-2 justify-between ">
           <h1 className="text-center hidden md:block text-black text-2xl font-[500]  ">
             Shop By Category

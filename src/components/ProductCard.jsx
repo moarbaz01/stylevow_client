@@ -49,7 +49,7 @@ function ProductCard({ props }) {
 
   return (
     <div
-      className="cursor-pointer  flex items-center justify-center"
+      className="cursor-pointer relative  flex items-center justify-center"
       onClick={() => navigate(`/product/${_id}`)}
     >
       <div
@@ -86,6 +86,7 @@ function ProductCard({ props }) {
             <CiShoppingCart />
           </div>
         </div>
+
         <div className="p-2 w-full mx-auto flex items-center justify-center my-auto">
           <img
             className="group-hover/scale:scale-[1.1] object-scale-down h-[120px] w-[120px] transition rounded-lg md:h-[280px] md:w-full"
@@ -110,10 +111,13 @@ function ProductCard({ props }) {
               <React.Fragment key={index}>{star}</React.Fragment>
             ))}
           </div>
-          <div className="flex items-center mt-1 gap-6">
+          <div className="flex items-center mt-1 justify-between">
             <span className="font-bold text-xl">₹{price}</span>
-            <span className="line-through text-color_dark_pink text-lg">
+            <span className="line-through font-bold text-color_dark_pink text-md">
               ₹{cutPrice}
+            </span>
+            <span className=" text-color_dark_pink font-bold text-md">
+              -{Math.round(((cutPrice - price) / cutPrice) * 100)}%
             </span>
           </div>
         </div>

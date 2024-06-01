@@ -327,7 +327,7 @@ function Navbar({ home }) {
                 state: { title: "Wishlist", data: user?.wishlist },
               })
             }
-            className="px-2 text-2xl relative cursor-pointer"
+            className="px-2 text-3xl relative cursor-pointer"
           >
             <CiHeart />
             {user.wishlist?.length > 0 && (
