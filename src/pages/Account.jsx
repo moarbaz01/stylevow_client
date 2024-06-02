@@ -10,15 +10,33 @@ import {
   CiWallet,
 } from "react-icons/ci";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logoutSuccess } from "../redux/slicers/auth";
+import { apiRequest } from "../services/ApiService";
+import { clearCart } from "../redux/slicers/cart";
 
 function Account() {
   const { isUser } = useSelector((state) => state.auth);
   const notify = (message) => toast(message);
   const dispatch = useDispatch();
+  const loadingToastRef = React.useRef(null);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
+    loadingToastRef.current = toast.loading("Logging Out...");
+    // api call
+    apiRequest
+      .delete("/logout")
+      .then((res) => {
+
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        toast.dismiss(loadingToastRef.current);
+      });
+    dispatch(clearCart());
     dispatch(logoutSuccess());
     notify("Logout Successfull");
   };

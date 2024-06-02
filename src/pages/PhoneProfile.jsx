@@ -33,7 +33,7 @@ function PhoneProfile() {
             className=" flex items-center mt-4 shadow-sm w-full p-4 rounded-sm "
           >
             <img
-              className=" h-28 w-28 rounded-full border-[2px] border-color_dark_pink mx-4"
+              className=" h-28 w-28 object-cover rounded-full border-[2px] border-color_dark_pink mx-4"
               src={user?.profileImage}
               alt=""
             />

@@ -63,6 +63,10 @@ const cart = createSlice({
           (quantity - prevQuantity) * itemToUpdate.product.price;
       }
     },
+    clearCart: (state) => {
+      state.items = [];
+      state.totalPrice = 0;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getUserCart.fulfilled, (state, action) => {
@@ -81,5 +85,5 @@ const calculateTotalPrice = (items) => {
   );
 };
 
-export const { addToCart, removeFromCart, updateCart } = cart.actions;
+export const { addToCart, removeFromCart, updateCart, clearCart } = cart.actions;
 export default cart.reducer;

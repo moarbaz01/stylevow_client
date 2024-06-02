@@ -212,9 +212,12 @@ const ProductView = () => {
             <p className="text-gray-700">{truncate(product.desc, 150)}</p>
             <div className="flex items-center gap-6">
               <h6 className="text-3xl font-semibold">₹{product.price}</h6>
-              <h6 className="text-2xl opacity-80 text-color_dark_pink line-through">
+              <h6 className="text-3xl opacity-80 text-color_dark_pink font-bold line-through">
                 ₹{product.cutPrice}
               </h6>
+              <h6 className=" text-color_dark_pink font-bold text-2xl">
+              -{Math.round(((product.cutPrice - product.price) / product.cutPrice) * 100)}%
+            </h6>
             </div>
 
             {/* Colors */}

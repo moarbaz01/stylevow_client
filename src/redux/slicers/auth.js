@@ -37,7 +37,7 @@ export const authSlice = createSlice({
     builder.addCase(fetchUser.fulfilled, (state, action) => {
       state.user = action.payload;
       state.isUser = true;
-      state.token = localStorage.getItem("stylevow_token");
+      state.token = action.payload.token;
     });
   },
 });

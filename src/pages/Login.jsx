@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { loginFailure, loginSuccess } from "../redux/slicers/auth";
 import toast from "react-hot-toast";
 import { apiRequest } from "../services/ApiService";
+import { getUserCart } from "../redux/slicers/cart";
 
 function Login() {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ function Login() {
         dispatch(
           loginSuccess({ user: res.data.user, token: res.data.user.token })
         );
+        dispatch(getUserCart);
         notify(res.data.message);
       })
       .catch((err) => {

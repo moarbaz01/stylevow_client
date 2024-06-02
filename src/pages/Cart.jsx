@@ -11,10 +11,11 @@ import Product404 from "../components/Product404";
 import { fetchUser } from "../redux/slicers/auth";
 import toast from "react-hot-toast";
 import { apiRequest } from "../services/ApiService";
+import { product } from "../data";
 
 function Cart() {
   const { items, totalPrice } = useSelector((state) => state.cart);
-  const { isUser} = useSelector((state) => state.auth);
+  const { isUser } = useSelector((state) => state.auth);
   const notify = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const dispatch = useDispatch();
@@ -135,7 +136,10 @@ function Cart() {
                         <td className=" pl-12">
                           <div className="flex items-center py-4 gap-6">
                             <img
-                              className="h-24"
+                              onClick={() =>
+                                navigate(`/product/${e.product._id}`)
+                              }
+                              className="h-24 cursor-pointer hover:opacity-80"
                               src={e.product.images[0]}
                               alt={`Product: ${e.product.title}`}
                             />
@@ -245,6 +249,7 @@ function Cart() {
                   >
                     <div className="h-20 flex-[1] w-20 mx-1">
                       <img
+                        onClick={() => navigate(`/product/${e.product._id}`)}
                         className=" w-16 object-cover h-20"
                         src={e.product.images[0]}
                         alt=""
@@ -356,7 +361,7 @@ function Cart() {
                     onClick={handlePromocode}
                     className=" flex-[1] h-14 bg-color_dark_pink px-2 text-white"
                   >
-                      Radeem
+                    Radeem
                   </button>
                 </div>
                 {promocodeError && (

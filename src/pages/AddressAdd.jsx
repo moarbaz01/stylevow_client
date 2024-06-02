@@ -94,7 +94,7 @@ function AddressAdd() {
             <div
               onClick={() => orderState?.items.length > 0 && selectAddress(a)}
               key={index}
-              className={`shadow-md flex md:h-[260px] md:w-[360px] flex-col shadow-color_pink p-4 m-2 md:m-4 ${
+              className={`shadow-md flex md:h-[260px] md:w-[360px] flex-col shadow-color_pink p-4 m-4 ${
                 address._id === a._id
                   ? "border-[2px] border-color_dark_pink"
                   : "border-[1px] border-gray-200"

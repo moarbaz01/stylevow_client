@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { CiCreditCard2, CiEdit, CiTrash } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { fetchUser } from "../redux/slicers/auth";
 import Product404 from "../components/Product404";
 import Announcement from "../components/Announcement";
@@ -12,14 +12,14 @@ import { apiRequest } from "../services/ApiService";
 
 function Cards() {
   const { user } = useSelector((state) => state.auth);
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const notify = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
   const navigate = useNavigate();
+  const loadingToastRef = useRef(null);
 
   const handleDelete = (id) => {
-    setLoading(true);
+    loadingToastRef.current = toast.loading("Deleting Card...");
     apiRequest
       .delete("/profile/card", {
         data: { cardId: id },
@@ -31,7 +31,9 @@ function Cards() {
       .catch((err) => {
         notifyError(err.response.data.message);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        toast.dismiss(loadingToastRef.current);
+      });
   };
 
   return (
@@ -48,7 +50,6 @@ function Cards() {
         </Link>
       </div>
 
-
       <div className="flex mt-4 md:mt-4  md:w-1/3 md:mx-auto md:border-[1px] md:mb-12 md:border-gray-300 md:rounded-md px-4 md:py-6 flex-col">
         {user && user.cards && user.cards.length > 0 ? (
           user.cards.map((c, index) => {
@@ -58,24 +59,16 @@ function Cards() {
                 className=" bg-blue-400 p-2 py-4 my-2 relative rounded-sm"
               >
                 <div className=" bg-red-500 text-white w-6 text-xl flex items-center justify-center rounded-full absolute right-4 h-6">
-                  {loading ? (
-                    <i className="fa text-white text-lg fa-spinner fa-spin"></i>
-                  ) : (
-                    <CiTrash
-                      className=" cursor-pointer"
-                      onClick={() => handleDelete(c._id)}
-                    />
-                  )}
+                  <CiTrash
+                    className=" cursor-pointer"
+                    onClick={() => handleDelete(c._id)}
+                  />
                 </div>
                 <div className=" bg-red-500 text-white w-6 text-xl flex items-center justify-center rounded-full absolute right-12 h-6">
-                  {loading ? (
-                    <i className="fa text-white text-lg fa-spinner fa-spin"></i>
-                  ) : (
-                    <CiEdit
-                      className=" cursor-pointer"
-                      onClick={() => navigate(`/addCard?id=${c._id}`)}
-                    />
-                  )}
+                  <CiEdit
+                    className=" cursor-pointer"
+                    onClick={() => navigate(`/addCard?id=${c._id}`)}
+                  />
                 </div>
                 <CiCreditCard2 className=" text-5xl text-white m-4" />
                 <h1 className=" text-3xl text-center mt-4 font-bold text-white">

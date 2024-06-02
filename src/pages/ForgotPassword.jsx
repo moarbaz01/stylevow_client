@@ -12,6 +12,11 @@ function ForgotPassword() {
   const notify = (message) => toast.success(message);
   const errNotify = (message) => toast.error(message);
   const [loading, setLoading] = useState(false);
+  function isValidGmail(email) {
+    // Regular expression to match email address pattern for gmail.com domain
+    const gmailRegex = /^[^\s@]+@gmail\.com$/;
+    return gmailRegex.test(email);
+  }
 
   // Change Handler
   function changeHandler(e) {
@@ -21,6 +26,11 @@ function ForgotPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    if (!isValidGmail(email)) {
+      errNotify("Please enter a valid Gmail address");
+      setLoading(false);
+      return;
+    }
     apiRequest
       .post("/profile/generateResetLink", { email })
       .then((res) => {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import {  MdPassword } from "react-icons/md";
+import { MdPassword } from "react-icons/md";
 import { Link, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { apiRequest } from "../services/ApiService";
@@ -17,11 +17,37 @@ function ResetPassword() {
   const token = searchParams.get("token");
   const userId = searchParams.get("id");
 
+  const isValidPassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(!userId || !token){
+      errNotify("Invalid Request");
+      return;
+    }
+    if (!isValidPassword(newPassword)) {
+      errNotify(
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+      );
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      errNotify("Passwords do not match");
+      return;
+    }
+
     setLoading(true);
     apiRequest
-      .put("/profile/resetPassword", { token, userId, newPassword, confirmPassword })
+      .put("/profile/resetPassword", {
+        token,
+        userId,
+        newPassword,
+        confirmPassword,
+      })
       .then((res) => {
         notify(res.data.message);
         setLoading(false);
@@ -42,7 +68,6 @@ function ResetPassword() {
         <Navbar />
       </div>
 
-
       {/* Center of page */}
       <div className="flex md:bg-gray-200 md:py-6 py-12 mx-auto">
         <div className="flex items-center md:w-[40%] w-full mx-auto py-8 px-4 bg-white rounded-sm flex-col justify-center">
@@ -61,7 +86,7 @@ function ResetPassword() {
                 type="text"
                 name="newPassword"
                 placeholder="New Password"
-                onChange={(e) => setNewPassword(e.target.value) }
+                onChange={(e) => setNewPassword(e.target.value)}
               />
             </div>
             <div className="flex items-center md:border-b-[0.5px] border-[1px] pl-2  border-gray-200 py-2   md:py-4 w-full">

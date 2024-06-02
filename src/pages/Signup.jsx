@@ -12,6 +12,8 @@ import toast from "react-hot-toast";
 import { apiRequest } from "../services/ApiService";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../redux/slicers/auth";
+import { IoEye, IoEyeOff } from "react-icons/io5";
+// import { getUserCart } from "../redux/slicers/cart";
 function Signup() {
   const [signupData, setSignupData] = useState({
     fname: "",
@@ -28,9 +30,39 @@ function Signup() {
   const [submitSend, setSubmitSend] = useState(false);
   const notify = (message) => toast.success(message);
   const notifyError = (message) => toast.error(message);
-  const { isUser } = useSelector((state) => state.auth);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [timer, setTimer] = useState(null);
+
   const termsRef = useRef();
   const loadingToastRef = useRef(null);
+
+  useEffect(() => {
+    let intervalId;
+
+    if (otpSend) {
+      intervalId = setInterval(() => {
+        if (timer !== 0) {
+          setTimer((prev) => prev - 1);
+        } else {
+          setOtpSend(false);
+        }
+      }, 1000);
+    }
+    return () => clearInterval(intervalId);
+  }, [otpSend, timer]);
+
+  useEffect(() => {
+    if (otpSend) {
+      setTimer(60);
+    }
+  }, [otpSend]);
+
+  const isValidPassword = (password) => {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
 
   const changeHandler = useCallback((e) => {
     const { name, value } = e.target;
@@ -43,17 +75,20 @@ function Signup() {
   const sendotpHandler = useCallback(
     (e) => {
       e.preventDefault();
-      if (validator.isEmail(signupData.email)) {
-        setOtpSend(true);
+      if (isValidGmail(signupData.email)) {
+        loadingToastRef.current = toast.loading("Sending OTP...");
         apiRequest
           .post("/otp", { email: signupData.email })
           .then((_) => {
-            setOtpSend(false);
+            setOtpSend(true);
             notify("OTP Successfully Sent");
           })
           .catch((err) => {
             setOtpSend(false);
             notifyError(err.response.data.message);
+          })
+          .finally(() => {
+            toast.dismiss(loadingToastRef.current);
           });
       } else {
         notifyError("Please enter a valid email");
@@ -62,12 +97,27 @@ function Signup() {
     [signupData.email]
   );
 
+  function isValidGmail(email) {
+    // Regular expression to match email address pattern for gmail.com domain
+    const gmailRegex = /^[^\s@]+@gmail\.com$/;
+    return gmailRegex.test(email);
+  }
+
+  function isValidPhone(phone) {
+    // Regular expression to match phone number pattern for India
+    const phoneRegex = /^[789]\d{9}$/;
+    return phoneRegex.test(phone);
+  }
+
   const submitHandler = useCallback(
     (e) => {
       e.preventDefault();
       if (termsRef.current.checked) {
         if (
-          validator.isEmail(signupData.email) &&
+          isValidGmail(signupData.email) &&
+          isValidPhone(signupData.phone) &&
+          isValidPassword(signupData.password) &&
+          signupData.otp.length === 4 &&
           signupData.password === signupData.confirmPassword &&
           signupData.password.length >= 6
         ) {
@@ -88,12 +138,18 @@ function Signup() {
               notifyError(err.response.data.message);
             });
         } else {
-          if (!validator.isEmail(signupData.email)) {
+          if (!isValidGmail(signupData.email)) {
             notifyError("Please enter a valid email");
-          } else if (signupData.password !== signupData.confirmPassword) {
-            notifyError("Passwords do not match");
+          } else if (!isValidPhone(signupData.phone)) {
+            notifyError("Please enter a valid phone number");
           } else if (signupData.password.length < 6) {
             notifyError("Password must be at least 6 characters long");
+          } else if (!isValidPassword(signupData.password)) {
+            notifyError(
+              "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character"
+            );
+          } else if (signupData.password !== signupData.confirmPassword) {
+            notifyError("Passwords do not match");
           }
         }
       } else {
@@ -115,26 +171,20 @@ function Signup() {
           loginSuccess({ user: res.data.user, token: res.data.user.token })
         );
         navigate("/");
-        console.log(res.data);
         notify(res.data.message);
       })
       .catch((err) => {
-        console.log(err.response.data);
         notifyError(err.response.data.message);
       })
       .finally(() => toast.dismiss(loadingToastRef.current));
   }
 
-  useEffect(() => {
-    if (isUser) {
-      navigate("/");
-    }
-  }, [isUser]);
-
   return (
     <div>
+      <div className="hidden md:block">
       <Announcement />
       <Navbar />
+      </div>
 
       {/* Center of page */}
       <div className="flex md:bg-gray-200 py-6">
@@ -213,39 +263,65 @@ function Signup() {
 
               <button
                 onClick={sendotpHandler}
+                disabled={otpSend}
                 className="h-[48px] ml-2 hover:opacity-80 bg-color_dark_pink text-white w-32"
               >
-                {otpSend ? (
-                  <i className="fa fa-spinner fa-spin"></i>
-                ) : (
-                  "Send OTP"
-                )}
+                {
+                  // timer after otp send
+                  otpSend ? (
+                    <span className="text-sm">Resend {timer}</span>
+                  ) : (
+                    "Send OTP"
+                  )
+                }
               </button>
             </div>
 
             {/*  */}
-            <div className="flex items-center md:border-b-[0.5px] border-[1px] pl-2  border-gray-200 py-2 md:py-4 w-full">
+            <div className="flex items-center md:border-b-[0.5px] border-[1px] pl-2 pr-4  border-gray-200 py-2 md:py-4 w-full">
               <TbPassword className="mr-2" />
               <input
-                className="bg-transparent h-[48px] w-full border-none outline-none "
-                type="password"
+                className="bg-transparent h-[48px] w-[90%] border-none outline-none "
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 onChange={changeHandler}
                 value={signupData.password}
               />
+              {showPassword ? (
+                <IoEye
+                  className="text-xl cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              ) : (
+                <IoEyeOff
+                  className="text-xl cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                />
+              )}
             </div>
             {/*  */}
-            <div className="flex items-center md:border-b-[0.5px] border-[1px] pl-2  border-gray-200 py-2  md:py-4 w-full">
+            <div className="flex items-center md:border-b-[0.5px] border-[1px] pl-2 pr-4  border-gray-200 py-2  md:py-4 w-full">
               <TbPassword className="mr-2" />
               <input
-                className="bg-transparent h-[48px] w-full border-none outline-none"
-                type="password"
+                className="bg-transparent h-[48px] w-[90%] border-none outline-none"
+                type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 placeholder="Confirm Password"
                 onChange={changeHandler}
                 value={signupData.confirmPassword}
               />
+              {showConfirmPassword ? (
+                <IoEye
+                  className="text-xl cursor-pointer"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
+              ) : (
+                <IoEyeOff
+                  className="text-xl cursor-pointer"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                />
+              )}
             </div>
             {/*  */}
             <div className="flex items-center my-2 gap-2">
@@ -282,7 +358,9 @@ function Signup() {
       </div>
 
       {/* Footer */}
-      <Footer />
+    <div className="hidden md:block">
+    <Footer />
+    </div>
     </div>
   );
 }

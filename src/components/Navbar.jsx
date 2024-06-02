@@ -11,6 +11,8 @@ import { MdOutlineArrowRight } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../redux/slicers/auth";
 import { apiRequest } from "../services/ApiService";
+import toast from "react-hot-toast";
+import { clearCart } from "../redux/slicers/cart";
 
 function Navbar({ home }) {
   const [border, setBorder] = useState(false);
@@ -25,8 +27,26 @@ function Navbar({ home }) {
   // sticky nav
   const [stickyClass, setStickyClass] = useState("");
 
+  const loadingToastRef = React.useRef(null);
+
   const handleLogout = () => {
+    loadingToastRef.current = toast.loading("Logging Out...");
+    // api call
+    apiRequest
+      .delete("/logout")
+      .then((res) => {
+        // console.log(res);
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        toast.dismiss(loadingToastRef.current);
+      });
+    dispatch(clearCart());
     dispatch(logoutSuccess());
+    toast.success("Logout Successfull");
   };
 
   function stickNavbar() {
@@ -161,7 +181,7 @@ function Navbar({ home }) {
           >
             {user && user.profileImage ? (
               <img
-                className="h-8 w-8 border-color_dark_pink border-[2px] rounded-full"
+                className="h-8 w-8 object-cover border-color_dark_pink border-[2px] rounded-full"
                 src={user.profileImage}
                 alt=""
               />
@@ -276,7 +296,7 @@ function Navbar({ home }) {
               className="px-2 text-2xl relative cursor-pointer"
             >
               <CiHeart />
-              {user.wishlist?.length > 0 && (
+              {user?.wishlist?.length > 0 && (
                 <div className="bg-color_dark_pink text-white rounded-full h-4 w-4 flex items-center justify-center absolute right-1 -top-0 text-xs">
                   {user?.wishlist?.length}
                 </div>
@@ -294,7 +314,7 @@ function Navbar({ home }) {
             className="px-2  text-2xl relative cursor-pointer"
           >
             <CiShoppingCart />
-            {items.length > 0 && (
+            {items?.length > 0 && (
               <div className="absolute right-0 -top-1 h-4 w-4 text-sm text-white rounded-full flex items-center justify-center bg-color_dark_pink">
                 {items.length}
               </div>
