@@ -17,7 +17,7 @@ module.exports = {
 
       },
       backgroundImage: {
-        heroPageBanner: "url(/src/assets/images/banner-3.jpg)",
+        // heroPageBanner: "url(/src/assets/images/banner-3.jpg)",
         signupImage : "url(/src/assets/images/blog-1.jpg)"
       },
       animation: {
