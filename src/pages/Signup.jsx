@@ -105,7 +105,7 @@ function Signup() {
 
   function isValidPhone(phone) {
     // Regular expression to match phone number pattern for India
-    const phoneRegex = /^[789]\d{9}$/;
+    const phoneRegex = /^[6789]\d{9}$/;
     return phoneRegex.test(phone);
   }
 
