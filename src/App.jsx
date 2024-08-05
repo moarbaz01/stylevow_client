@@ -1,9 +1,9 @@
 import { useLocation } from "react-router-dom";
 import "./App.css";
 import BottomNavbar from "./components/BottomNavbar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchUser, logoutSuccess } from "./redux/slicers/auth";
+import { fetchUser } from "./redux/slicers/auth";
 import { getUserCart } from "./redux/slicers/cart";
 import Router from "./routes/Router";
 import MyToaster from "./components/MyToaster";
@@ -12,6 +12,7 @@ function App() {
   const dispatch = useDispatch();
   const token = localStorage.getItem("stylevow_token");
   const location = useLocation();
+  const { loading } = useSelector((state) => state.loading);
 
   useEffect(() => {
     if (token) {
@@ -22,9 +23,18 @@ function App() {
     }
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex justify-center flex-col items-center h-screen overflow-hidden">
+        <span className="loader"></span>
+        <p className="mt-6">Please wait...</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <MyToaster/>
+      <MyToaster />
       {![
         "/gender",
         "/profile",

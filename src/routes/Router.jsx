@@ -10,7 +10,7 @@ const Router = () => {
   return (
     <Suspense
       fallback={
-        <div className=" flex items-center justify-center mt-[50%]">
+        <div className=" flex items-center justify-center h-screen overflow-hidden">
           <span className="loader"></span>
         </div>
       }
