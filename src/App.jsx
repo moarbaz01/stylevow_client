@@ -7,6 +7,7 @@ import { fetchUser } from "./redux/slicers/auth";
 import { getUserCart } from "./redux/slicers/cart";
 import Router from "./routes/Router";
 import MyToaster from "./components/MyToaster";
+import { checkServer } from "./redux/slicers/loading";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,7 +22,11 @@ function App() {
     } else {
       localStorage.removeItem("stylevow_token");
     }
-  }, []);
+  }, [token]);
+
+  useEffect(() => {
+    dispatch(checkServer());
+  }, [dispatch]);
 
   if (loading) {
     return (
